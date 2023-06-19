@@ -4,4 +4,7 @@ We wanna learn mongoose and mongodb using services and classes.
 
 Resources : https://masteringjs.io/tutorials/mongoose/delete-by-id
 
+Split these into different modules and learn independently
 Integrate express, bodyparser, morgan, bcrypt, middleware, rate limiting, geolocation, crud, sort and filter
+
+i. Request and Response cycle
