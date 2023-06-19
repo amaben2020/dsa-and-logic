@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import Blog from "./model/Blog.js";
+import app from "express";
+
+app.use(express.json());
 
 // using Mongoose to connect to MongoDB
 mongoose.connect(

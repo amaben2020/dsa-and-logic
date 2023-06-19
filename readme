@@ -8,3 +8,5 @@ Split these into different modules and learn independently
 Integrate express, bodyparser, morgan, bcrypt, middleware, rate limiting, geolocation, crud, sort and filter
 
 i. Request and Response cycle
+
+ii. CRUD: https://attacomsian.com/blog/mongoose-delete-documents
