@@ -3,7 +3,7 @@ import Blog from "./model/Blog.js";
 
 // using Mongoose to connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://algomachine:VYSjg9bC3Ce8fNbZ@cluster0.llk3v.mongodb.net/?retryWrites=true&w=majority",
+  `mongodb+srv://algomachine:${process.env.MONGODB_PWD}@cluster0.llk3v.mongodb.net/?retryWrites=true&w=majority`,
 );
 
 // Create a new blog post object
