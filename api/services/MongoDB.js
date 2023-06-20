@@ -83,7 +83,7 @@ class MongoDBFactory {
     }
   }
   // delete: we are using id to delete stuff
-  async deleteItem() {
+  async deleteItem(id) {
     try {
       // Under the hood, the findByIdAndDelete(id) method is a shorthand for findOneAndDelete({ _id: id })
       const doc = await this.model.findByIdAndDelete(id);

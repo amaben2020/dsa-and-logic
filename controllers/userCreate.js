@@ -19,11 +19,26 @@ const userCreate = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const id = req.params["id"];
-  const itemInDb = await mongodb.getById(String(id));
-  return res.json({
-    item: itemInDb,
-  });
+  try {
+    const id = req.params["id"];
+    const { email } = await mongodb.getById(String(id));
+    console.log("db item", itemInDb?.email);
+    return res.json({
+      item: email,
+    });
+  } catch (error) {
+    console.log("ERROR", error);
+  }
 };
 
-export { userCreate, getUser };
+const deleteUser = async (req, res) => {
+  try {
+    const id = req.params["id"];
+    await mongodb.deleteItem(String(id));
+    return res.status(200).send(`User successfully deleted ❌`);
+  } catch (error) {
+    console.log("ERROR", error);
+  }
+};
+
+export { userCreate, getUser, deleteUser };
