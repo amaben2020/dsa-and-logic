@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
+const Roles = {
+  USER: "USER",
+  ADMIN: "ADMIN",
+};
+
 // Validation: prevents omission of fields
 const userSchema = new Schema({
   email: {
@@ -15,6 +20,12 @@ const userSchema = new Schema({
   isAdmin: {
     type: Boolean,
     default: false,
+  },
+
+  roles: {
+    type: [String],
+    enum: Object.keys(Roles),
+    default: Roles.USER,
   },
 });
 
