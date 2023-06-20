@@ -21,4 +21,5 @@ const userSchema = new Schema({
 // arg1: singular form of schema i.e Post, Blog, User etc. This is because this represents what an instance of the model would be not a collection
 
 const User = model("User", userSchema);
+
 export default User;
