@@ -16,7 +16,6 @@ class MongoDBFactory {
       const insertItem = await this.model(item).save();
 
       // Insert the article in our MongoDB database
-      console.log("Insert item", insertItem);
 
       return insertItem;
     } catch (error) {
@@ -27,9 +26,16 @@ class MongoDBFactory {
   async getById(id) {
     // Find a single item in db
     try {
-      // console.log("Model", this.initModel());
       const item = await this.model.findById(String(id)).exec();
-      console.log("item", item);
+      return item;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  async getAll() {
+    try {
+      const item = await this.model.find({}).exec();
       return item;
     } catch (error) {
       console.log("error", error);

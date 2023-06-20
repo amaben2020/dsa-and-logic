@@ -14,15 +14,21 @@ const app = express();
 app.use(bodyParser.json());
 
 // using Mongoose to connect to MongoDB
+//  TODO:  extract this later
 mongoose.connect(
   `mongodb+srv://algomachine:${process.env.MONGODB_PWD}@cluster0.llk3v.mongodb.net/?retryWrites=true&w=majority`,
 );
 
-// User factory
-const mongodb = new MongoDBFactory(User);
+//  TODO:  extract this later
+const routes = [
+  { path: "/wiki", route: wiki },
+  { path: "/user", route: user },
+];
 
-app.use("/wiki", wiki);
-app.use("/user", user);
+routes.forEach(({ path, route }) => {
+  app.use(path, route);
+  // app.use("/wiki", wiki);
+});
 
 const PORT = 5001;
 app.listen(PORT, () => {

@@ -21,11 +21,32 @@ const userCreate = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const id = req.params["id"];
-    const { email } = await mongodb.getById(String(id));
-    console.log("db item", itemInDb?.email);
-    return res.json({
-      item: email,
-    });
+    const user = await mongodb.getById(String(id));
+
+    if (user?.email) {
+      return res.json({
+        user,
+      });
+    }
+
+    res.send("User does not exist ");
+  } catch (error) {
+    console.log("ERROR", error);
+  }
+};
+
+const getUsers = async (req, res) => {
+  try {
+    const id = req.params["id"];
+    const user = await mongodb.find({});
+
+    if (user?.email) {
+      return res.json({
+        user,
+      });
+    }
+
+    res.send("User does not exist ");
   } catch (error) {
     console.log("ERROR", error);
   }
