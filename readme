@@ -10,10 +10,10 @@ Integrate express, bodyparser, status codes, morgan, bcrypt, middleware, rate li
 i. Request and Response cycle
 
 ii.CRUD:
-i.https://attacomsian.com/blog/mongoose-delete-documents
-ii. https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
+i.https://attacomsian.com/blog/mongoose-delete-documents ✅
+ii. https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes ✅
 
-iii. Understanding status codes in-depth (4xx-client, 2xx-ok, 5xx-server, 3xx-redirect)
+iii. Understanding status codes in-depth (4xx-client, 2xx-ok, 5xx-server, 3xx-redirect) ✅
 
 id: 6490335a7302ab26781a0029
 

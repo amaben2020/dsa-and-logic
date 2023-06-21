@@ -14,9 +14,7 @@ class MongoDBFactory {
     try {
       // item would be an object
       const insertItem = await this.model(item).save();
-
       // Insert the article in our MongoDB database
-
       return insertItem;
     } catch (error) {
       console.log("Error", error);
