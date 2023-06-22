@@ -5,11 +5,12 @@ We wanna learn mongoose and mongodb using services and classes.
 Resources : https://masteringjs.io/tutorials/mongoose/delete-by-id
 
 Split these into different modules and learn independently
-Integrate express, bodyparser, status codes, morgan, bcrypt, middleware, rate limiting, geolocation, crud, sort and filter
+Integrate express, bodyparser, status codes, morgan, bcrypt, middleware, rate limiting, geolocation, salting and hash/tokenization (bcrypt), crud, sort and filter
 
 i. Request and Response cycle
 
 ii.CRUD:
+
 i.https://attacomsian.com/blog/mongoose-delete-documents ✅
 ii. https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes ✅
 
@@ -20,3 +21,11 @@ id: 6490335a7302ab26781a0029
 Export pattern in node js
 a. module.exports = wiki
 b. const wiki = require("./routes/wiki.js");
+
+iv. morgan: HTTP request logger middleware for node.js ✅
+
+v. Rate-limiting in node.js ✅
+
+vi. salting and hash/tokenization (bcrypt) in node.js ✅
+
+vii. Routing: https://vegibit.com/what-is-express-router-for/

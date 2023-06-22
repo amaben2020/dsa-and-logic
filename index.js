@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
-import Blog from "./model/Blog.js";
 import express from "express";
 import MongoDBFactory from "./../mongo/api/services/MongoDB.js";
-import User from "./model/User.js";
 import bodyParser from "body-parser";
 import { userCreate, getUsers } from "./controllers/userCreate.js";
 import wiki from "./routes/wiki.js";
 import user from "./routes/user.js";
+import blog from "./routes/blog.js";
+
 // Set up rate limiter: maximum of twenty requests per minute
 import RateLimit from "express-rate-limit";
 import morgan from "morgan";
@@ -31,10 +31,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(limiter);
 app.use(morgan("tiny"));
+
 //  TODO:  extract this later
 const routes = [
   { path: "/wiki", route: wiki },
   { path: "/user", route: user },
+  { path: "/blog", route: blog },
 ];
 
 routes.forEach(({ path, route }) => {
@@ -42,7 +44,7 @@ routes.forEach(({ path, route }) => {
   // app.use("/wiki", wiki);
 });
 
-app.get("/users", getUsers);
+// app.get("/users", getUsers);
 
 const PORT = 5001;
 app.listen(PORT, () => {

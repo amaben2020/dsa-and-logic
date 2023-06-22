@@ -29,13 +29,13 @@ const blogSchema = new Schema({
     immutable: true,
   },
   updatedAt: Date,
-  comments: [
-    {
-      user: String,
-      content: String,
-      votes: Number,
-    },
-  ],
+  // comments: [
+  //   {
+  //     user: String,
+  //     content: String,
+  //     votes: Number,
+  //   },
+  // ],
 });
 
 // arg1: singular form of schema i.e Post, Blog, User etc. This is because this represents what an instance of the model would be not a collection
