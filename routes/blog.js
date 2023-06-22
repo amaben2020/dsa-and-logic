@@ -1,6 +1,8 @@
-import router from "./index.js";
+import express from "express";
 import { createBlogPost } from "./../controllers/blog.js";
 
-router.post("/", createBlogPost);
+const blogRouter = express.Router();
 
-export default router;
+blogRouter.post("/", createBlogPost);
+
+export default blogRouter;

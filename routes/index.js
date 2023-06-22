@@ -1,4 +1,9 @@
-import express from "express";
-const router = express.Router();
+import blogRouter from "./blog.js";
+import userRouter from "./user.js";
+import wikiRouter from "./wiki.js";
 
-export default router;
+export const routes = [
+  { path: "/wiki", route: wikiRouter },
+  { path: "/user", route: userRouter },
+  { path: "/blog", route: blogRouter },
+];

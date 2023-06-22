@@ -29,3 +29,5 @@ v. Rate-limiting in node.js ✅
 vi. salting and hash/tokenization (bcrypt) in node.js ✅
 
 vii. Routing: https://vegibit.com/what-is-express-router-for/
+
+viii. Swagger docs

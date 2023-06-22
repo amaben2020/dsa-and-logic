@@ -1,7 +1,9 @@
-import router from "./index.js";
+import express from "express";
 
-router.get("/", function (req, res) {
+const wikiRouter = express.Router();
+
+wikiRouter.get("/", function (req, res) {
   res.send("Wiki home page");
 });
 
-export default router;
+export default wikiRouter;

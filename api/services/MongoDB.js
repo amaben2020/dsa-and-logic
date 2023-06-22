@@ -12,7 +12,6 @@ class MongoDBFactory {
 
   // create or insert
   async createItem(item) {
-    console.log("this.model", this.model);
     try {
       // item would be an object
       const insertItem = await this.model(item).save();
