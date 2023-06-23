@@ -10,7 +10,7 @@ const Roles = {
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true,
+    required: [true, "User must have an email address"],
   },
   password: {
     type: String,

@@ -1,0 +1,25 @@
+https://jeffdevslife.com/p/1-mongodb-query-of-advanced-filtering-sorting-limit-field-and-pagination-with-mongoose/
+
+Test Case
+http://localhost:3000/api/v1/tours?ratingsAverage=4.7, Query the data which ratingsAverage is exactly equal to 4.7
+http://localhost:3000/api/v1/tours?ratingsAverage[gte]=4.7, Query the data which ratingsAverage is greater or equal than 4.7
+http://localhost:3000/api/v1/tours?sort=ratingsAverage, Query the data to sort by ratingsAverage field with ascending order
+http://localhost:3000/api/v1/tours?sort=-ratingsAverage, Query the data to sort by ratingsAverage field with descending order
+http://localhost:3000/api/v1/tours?sort=ratingsAverage,ratingsQuantity, Query the data to sort by ratingsAverage field with ascending order. lower ratingsQuantity field data will be listed first if the query has same ratingsAverage value
+Explanation
+Filter
+Get all query parameters from the url
+Line 6 ~ 7 is deleting and extracting out some special query params which is not from the data field itself but it’s indicating some operational actions keyword like 'page', 'sort', 'limit', 'fields'
+page and limit will be used as Pagination (which we will be covered in the next article)
+sort will be used for sorting
+fields will be used as limit fields which only show certain field from the response body
+Line 10 ~ 11 is to first convert the query params object into string, then we can use String.replace method and regular expression to replace some special operator such as gte: Greater or Equal Than, gt: Greater Than, lte: Less or Equal Than, lt: Less Than
+Basically we need to convert into this format so that MongoDb will able to recognize these operators
+{durations:{gte: '5' }} map into => {durations:{$gte: '5' }}
+Then we can convert back the query data type from string back into object by using JSON.parse and create our query Tour.find(< query >)
+Sort
+Sort the field createdAt in descending order by default if the sort param is not included in the url
+Line 16 is handling if there are more than 1 params need to be sorted
+URL will be look something like this => http://localhost:3000/api/v1/tours?sort=ratingsAverage,ratingsQuantity
+MongoDB sort multiple fields will needed this structure .sort('firstParam secondParam')
+We can split the query string from url by comma then join them with a white space in between

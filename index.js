@@ -6,6 +6,7 @@ import { routes } from "./routes/index.js";
 // Set up rate limiter: maximum of twenty requests per minute
 import RateLimit from "express-rate-limit";
 import morgan from "morgan";
+import importData from "./script/tour.js";
 import "dotenv/config";
 
 // Rate limiter so we don't abuse the API
@@ -33,6 +34,7 @@ routes.forEach(({ path, route }) => {
 });
 
 const PORT = 5001;
+// importData();
 app.listen(PORT, () => {
   console.log(` App listening on port ${PORT} 🔥`);
 });
