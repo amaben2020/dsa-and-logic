@@ -15,8 +15,9 @@ i.https://attacomsian.com/blog/mongoose-delete-documents ✅
 ii. https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes ✅
 
 iii. Understanding status codes in-depth (4xx-client, 2xx-ok, 5xx-server, 3xx-redirect) ✅  
-Status Code 201 – This is the status code that confirms that the request was successful and, as a result, a new resource was created. 
+Status Code 201 – This is the status code that confirms that the request was successful and, as a result, a new resource was created.
 Typically, this is the status code that is sent after a POST/PUT request.
+https://melkornemesis.medium.com/http-status-code-decoded-a-guide-to-understanding-200-201-202-and-204-c08904e7f0fe
 
 id: 6490335a7302ab26781a0029
 

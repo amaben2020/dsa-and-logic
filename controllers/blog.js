@@ -29,7 +29,7 @@ const updateBlogPost = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   const blogPost = await blogModel?.updateItem(id, "title", req.body.title);
-
+  console.log(blogPost);
   res.status(200).json({
     blog: `Blog with id - ${req.params.id} updated successfully ✅`,
   });

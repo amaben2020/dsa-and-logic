@@ -1,9 +1,10 @@
 const getAllTours = async (req, res) => {
+  console.log(req);
   try {
     //BUILD QUERY
     // 1A) Filtering
     const queryObj = { ...req.query };
-    console.log("queryObj", queryObj);
+
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
