@@ -6,7 +6,33 @@ const blogModel = new MongoDBFactory(Blog);
 
 const createBlogPost = asyncHandler(async (req, res) => {
   const blogPost = await blogModel.createItem(req?.body);
-  res.send("Created");
+
+  res.status(200).json({
+    blog: `Blog with ${blogPost.title} created successfully ✅`,
+  });
 });
 
-export { createBlogPost };
+const getAllBlogPosts = asyncHandler(async (_, res) => {
+  const blogPost = await blogModel.getAll();
+
+  res.json({
+    blogPost,
+    status: 201,
+  });
+});
+
+// model.update()
+
+// findOpeAndUpdate({name: ""}, after{name: "Ben", age: 22}, {new:true}, (error, data) => {if(error){clg} clg(data) })
+// findOpeAndUpdate({}) returns the old record
+const updateBlogPost = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const blogPost = await blogModel?.updateItem(id, "title", req.body.title);
+
+  res.status(200).json({
+    blog: `Blog with id - ${req.params.id} updated successfully ✅`,
+  });
+});
+
+export { createBlogPost, updateBlogPost, getAllBlogPosts };

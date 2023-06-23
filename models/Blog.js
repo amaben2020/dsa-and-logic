@@ -10,7 +10,7 @@ const blogSchema = new Schema({
   },
   slug: {
     type: String,
-    required: true,
+    // required: true,
     lowercase: true,
   },
   published: {
@@ -19,7 +19,7 @@ const blogSchema = new Schema({
   },
   author: {
     type: String,
-    required: true,
+    // required: true,
   },
   content: String,
   tags: [String],

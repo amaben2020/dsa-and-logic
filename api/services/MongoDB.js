@@ -73,7 +73,7 @@ class MongoDBFactory {
   async updateItem(id, key, propertyToUpdate) {
     try {
       // what do you wanna update?
-      let itemToUpdate = await new this.model.findById(id);
+      let itemToUpdate = await this.model.findById(id);
 
       // update a property in the object or model
       itemToUpdate[key] = propertyToUpdate;
@@ -81,7 +81,7 @@ class MongoDBFactory {
       await itemToUpdate.save();
 
       // Load the document to see the updated value
-      const doc = await new this.model.findOne();
+      const doc = await this.model.findOne();
       return `${doc.title} updated successfully ✅`;
     } catch (error) {
       console.log(error);
