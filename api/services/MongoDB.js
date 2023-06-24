@@ -69,6 +69,23 @@ class MongoDBFactory {
     }
   }
 
+  // read: log what is currently in the database, useless
+  async findOneItemAndUpdate(id, name) {
+    // Find a single item in db
+    try {
+      const item = await new this.model.findOneAndUpdate(
+        {
+          _id: id,
+        },
+        ...(name ? { name } : {}),
+      );
+      console.log("item", item);
+      return "Success";
+    } catch (error) {
+      console.log("error");
+    }
+  }
+
   // update
   async updateItem(id, key, propertyToUpdate) {
     try {

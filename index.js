@@ -1,13 +1,12 @@
-import mongoose from "mongoose";
-import express from "express";
 import bodyParser from "body-parser";
+import express from "express";
+import mongoose from "mongoose";
 
 import { routes } from "./routes/index.js";
 // Set up rate limiter: maximum of twenty requests per minute
+import "dotenv/config";
 import RateLimit from "express-rate-limit";
 import morgan from "morgan";
-import importData from "./script/tour.js";
-import "dotenv/config";
 
 // Rate limiter so we don't abuse the API
 const limiter = RateLimit({
