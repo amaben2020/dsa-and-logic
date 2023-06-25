@@ -47,7 +47,7 @@ class MongoDBFactory {
       const item = await new this.model()
         .findById(
           id,
-          String((fields += "")), // my 🧙🏾‍♂️ moment
+          String((fields += "")), // my eureka wizardry 🧙🏾‍♂️ moment
         )
         .exec();
       console.log("item", item);
@@ -58,12 +58,11 @@ class MongoDBFactory {
   }
 
   // read: log what is currently in the database, useless
-  async findOneItem() {
+  async find(queries) {
     // Find a single item in db
     try {
-      const item = await new this.model.findOne({});
-      console.log("item", item);
-      return "Success";
+      const item = this.model.find(queries);
+      return item;
     } catch (error) {
       console.log("error");
     }

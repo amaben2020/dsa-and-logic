@@ -1,5 +1,5 @@
-import MongoDBFactory from "./../api/services/MongoDB.js";
 import asyncHandler from "express-async-handler";
+import MongoDBFactory from "./../api/services/MongoDB.js";
 import Blog from "./../models/Blog.js";
 
 const blogModel = new MongoDBFactory(Blog);
@@ -9,6 +9,27 @@ const createBlogPost = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     blog: `Blog with ${blogPost.title} created successfully ✅`,
+  });
+});
+
+const getBlogPosts = asyncHandler(async (req, res) => {
+  //FILTERS
+  // extract query strings and find them in mongoose
+  let queryString = { ...req.query };
+  // exclude the sort for now
+  const excludedStrings = ["sortBy", "fields", "limit", "page"];
+  // build up query
+
+  excludedStrings.forEach((el) => {
+    delete queryString[el];
+  });
+
+  const blogPosts = await blogModel.find({ ...queryString }).select("-__v");
+
+  res.json({
+    length: blogPosts.length,
+    blogPosts,
+    status: 200,
   });
 });
 
@@ -35,4 +56,4 @@ const updateBlogPost = asyncHandler(async (req, res) => {
   });
 });
 
-export { createBlogPost, updateBlogPost, getAllBlogPosts };
+export { createBlogPost, getAllBlogPosts, getBlogPosts, updateBlogPost };

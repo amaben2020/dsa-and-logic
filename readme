@@ -38,3 +38,5 @@ viii. Swagger docs implementation
 ix. Socket.io implementation
 
 x. Message queues
+
+xi. Mongoose queries: https://masteringjs.io/tutorials/mongoose/query
