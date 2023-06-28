@@ -1,4 +1,4 @@
-import User from "./../models/User.js";
+import User from "../models/User.js";
 import MongoDBFactory from "./../api/services/MongoDB.js";
 import asyncHandler from "express-async-handler";
 

@@ -4,7 +4,7 @@
   "description": "We wanna learn mongoose and mongodb using services and classes.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js node --trace-warnings ."
   },
   "type": "module",
   "keywords": [],

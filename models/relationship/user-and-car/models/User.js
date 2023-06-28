@@ -1,9 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
 // create a User with cars
-const UserModel = new Schema({
-  name: String,
-  age: String,
+const UserModel2 = new Schema({
+  username: {
+    type: String,
+    required: [true, "User must have a username"],
+  },
+  age: {
+    type: String,
+    required: [true, "User must have an age"],
+  },
   cars: [
     {
       type: Schema.Types.ObjectId,
@@ -12,6 +18,6 @@ const UserModel = new Schema({
   ],
 });
 
-const User = mongoose.model("User", UserModel);
+const User2 = mongoose.model("User2", UserModel2);
 
-export default User;
+export default User2;

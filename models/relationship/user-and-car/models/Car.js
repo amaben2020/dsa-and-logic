@@ -10,6 +10,6 @@ const CarModel = new Schema({
   },
 });
 
-const Car = mongoose.model("User", CarModel);
+const Car = mongoose.model("Car", CarModel);
 
 export default Car;
