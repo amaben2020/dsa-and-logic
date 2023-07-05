@@ -16,26 +16,26 @@ const createBlogPost = asyncHandler(async (req, res) => {
 const getBlogPosts = asyncHandler(async (req, res) => {
   //FILTERS
   // extract query strings and find them in mongoose
-  let query = { ...req.query };
+  let queryString = { ...req.query };
+
   // exclude the sort for now
   const excludedStrings = ["sortBy", "fields", "limit", "page"];
   // build up query
 
   excludedStrings.forEach((item) => {
     if (typeof item === "string") {
-      delete query[item];
+      delete queryString[item];
     }
   });
 
   // for filtering by duration
-  if (query?.duration) {
-    query = JSON.stringify(req.query).replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (m) => `$${m}`,
+  if (queryString?.duration) {
+    queryString = JSON.parse(
+      JSON.stringify(req.query).replace(/\b(gte|gt|lte|lt)\b/g, (m) => `$${m}`),
     );
-
-    query = JSON.parse(query);
   }
+  // placed directly above the sorter so its overridden if there's a sort in place
+  let query = Blog.find(queryString);
 
   // sorting: basically it requires passing a string to the model.find(string)
   if (req.query.sort) {
@@ -46,11 +46,7 @@ const getBlogPosts = asyncHandler(async (req, res) => {
   }
 
   // correct way ✅
-  const blogPostsQuery = Blog.find(query).select("-__v").exec();
-
-  // using Mongoose special functions rather than chaining
-  // .where("duration")
-  // .equals(req.query.duration)
+  const blogPostsQuery = query.select("-__v").exec();
 
   const blogPosts = await blogPostsQuery;
 
