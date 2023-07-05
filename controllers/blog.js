@@ -34,7 +34,8 @@ const getBlogPosts = asyncHandler(async (req, res) => {
       JSON.stringify(req.query).replace(/\b(gte|gt|lte|lt)\b/g, (m) => `$${m}`),
     );
   }
-  // placed directly above the sorter so its overridden if there's a sort in place
+  // placed directly above the sorter so its overridden if there's a sort in place. This utilizes an object filtration (req.params) mechanism rather than strings.
+  // for general filtration
   let query = Blog.find(queryString);
 
   // sorting: basically it requires passing a string to the model.find(string)
@@ -45,13 +46,32 @@ const getBlogPosts = asyncHandler(async (req, res) => {
     query = Blog.find().sort("-createdAt");
   }
 
+  // fields limitation feature
   if (req.query.fields) {
     const fieldsQuery = req.query.fields.split(",").join(" ");
     query = query.select(fieldsQuery);
+  } else {
+    query = query.select("-__v");
+  }
+
+  //PAGINATION
+  if (req.query.page || req.query.limit) {
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit * 1 || 1;
+
+    const skip = Number(page - 1) * Number(limit);
+
+    const blogsCount = Blog.countDocuments();
+
+    if (skip >= blogsCount) {
+      throw new Error("Page not found");
+    } else {
+      query = Blog.find().skip(skip).limit(limit);
+    }
   }
 
   // correct way ✅
-  const blogPostsQuery = query.select("-__v").exec();
+  const blogPostsQuery = query.exec();
 
   const blogPosts = await blogPostsQuery;
 
