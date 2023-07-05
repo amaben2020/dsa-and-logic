@@ -18,7 +18,7 @@ const getBlogPosts = asyncHandler(async (req, res) => {
   // extract query strings and find them in mongoose
   let queryString = { ...req.query };
 
-  // exclude the sort for now
+  // these fields would only be used in their API feature handlers, these handlers are programmed to utilize the queries
   const excludedStrings = ["sortBy", "fields", "limit", "page"];
   // build up query
 
@@ -43,6 +43,11 @@ const getBlogPosts = asyncHandler(async (req, res) => {
     query = Blog.find().sort(sortWithMultipleQuery);
   } else {
     query = Blog.find().sort("-createdAt");
+  }
+
+  if (req.query.fields) {
+    const fieldsQuery = req.query.fields.split(",").join(" ");
+    query = query.select(fieldsQuery);
   }
 
   // correct way ✅
