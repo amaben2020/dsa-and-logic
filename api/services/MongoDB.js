@@ -16,6 +16,7 @@ class MongoDBFactory {
       // item would be an object
       const insertItem = await this.model(item).save();
       // Insert the article in our MongoDB database
+      console.log("insertItem", insertItem);
       return insertItem;
     } catch (error) {
       console.log("Error", error);
@@ -58,10 +59,11 @@ class MongoDBFactory {
   }
 
   // read: log what is currently in the database, useless
-  async find(queries) {
+  async findItems(queries) {
     // Find a single item in db
     try {
       const item = this.model.find(queries);
+
       return item;
     } catch (error) {
       console.log("error");

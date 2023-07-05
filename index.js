@@ -7,6 +7,8 @@ import { routes } from "./routes/index.js";
 import "dotenv/config";
 import RateLimit from "express-rate-limit";
 import morgan from "morgan";
+import Product from "./models/relationship/user-and-car/models/Product.js";
+import Review from "./models/relationship/user-and-car/models/Review.js";
 
 // Rate limiter so we don't abuse the API
 const limiter = RateLimit({
@@ -30,6 +32,75 @@ app.use(morgan("tiny"));
 
 routes.forEach(({ path, route }) => {
   app.use(path, route);
+});
+
+// to extract later after learning
+
+// Route to get all products
+app.get("/products", function (req, res) {
+  Product.find({})
+    .then(function (dbProducts) {
+      res.json(dbProducts);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
+// Route to get all reviews
+app.get("/reviews", function (req, res) {
+  Review.find({})
+    .then(function (dbReviews) {
+      res.json(dbReviews);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+});
+
+// Route for creating a new Product
+app.post("/product", async function (req, res) {
+  try {
+    const product = Product(req.body);
+
+    const dbProduct = await product.save();
+
+    res.json(dbProduct);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Route for creating a new Review and updating Product "review" field with it
+app.post("/product/:id", async function (req, res) {
+  try {
+    // Create a new note and pass the req.body to the entry
+    const review = await Review(req.body);
+
+    const productWithReview = await Product.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { reviews: review._id } },
+      { new: true },
+    );
+
+    res.json(productWithReview);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Route for retrieving a Product by id and populating it's Review.
+app.get("/products/:id", async function (req, res) {
+  try {
+    const product = await Product.findOne({ _id: req.params.id }).populate(
+      "reviews",
+    );
+
+    res.json(product);
+  } catch (error) {
+    console.log(error);
+    // process.exit(0);
+  }
 });
 
 const PORT = 5001;

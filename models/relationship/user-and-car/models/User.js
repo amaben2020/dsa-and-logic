@@ -8,8 +8,10 @@ const UserModel2 = new Schema({
   },
   age: {
     type: String,
+
     required: [true, "User must have an age"],
   },
+  // array means many
   cars: [
     {
       type: Schema.Types.ObjectId,
