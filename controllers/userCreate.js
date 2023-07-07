@@ -1,18 +1,63 @@
+import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import MongoDBFactory from "./../api/services/MongoDB.js";
-import asyncHandler from "express-async-handler";
-
 // Init User factory
 const mongodb = new MongoDBFactory(User);
 
-const userCreate = async (req, res) => {
-  const data = req.body;
+const userLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  let existingUser = {};
+  let token = "";
 
   try {
-    const createdItem = await mongodb.createItem(data);
+    existingUser = await User.findOne({ email: email });
+    console.log("existingUser", existingUser);
+
+    if (existingUser.email) {
+      token = jwt.sign(
+        { email: existingUser?.email, id: existingUser._id },
+        "jcdkdmklcksmcdmklcsklmdmkldmkls",
+        {
+          expiresIn: 60 * 60,
+        },
+      );
+    } else {
+      throw new Error("No user");
+    }
+
+    console.log("token", token);
+
+    if (!existingUser || existingUser?.password != password) {
+      const error = Error("Wrong details please check at once");
+      return next(error);
+    }
 
     return res.status(201).json({
-      item: createdItem,
+      user: existingUser,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const userRegister = async (req, res, next) => {
+  const data = req.body;
+  try {
+    const user = (await User.create(data)).save();
+    const token = jwt.sign(
+      { email: data?.email, id: data._id },
+      "jcdkdmklcksmcdmklcsklmdmkldmkls",
+      {
+        expiresIn: 60 * 60,
+      },
+    );
+    return res.status(201).json({
+      user,
+      token,
+      status: 201,
     });
   } catch (error) {
     console.log(error);
@@ -38,6 +83,7 @@ const getUsers = async (_, res) => {
   const users = await mongodb.getAll();
   return res.json({
     users,
+    status: "success",
   });
 };
 
@@ -54,7 +100,7 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export { userCreate, getUser, deleteUser, getUsers };
+export { deleteUser, getUser, getUsers, userLogin, userRegister };
 
 // REGEX
 // app.get(/.*fish$/, function (req, res) {

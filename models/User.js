@@ -16,17 +16,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  hobbies: [String],
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
+  // hobbies: [String],
+  // isAdmin: {
+  //   type: Boolean,
+  //   default: false,
+  // },
 
-  roles: {
-    type: [String],
-    enum: Object.keys(Roles),
-    default: Roles.USER,
-  },
+  // roles: {
+  //   type: [String],
+  //   enum: Object.keys(Roles),
+  //   default: Roles.USER,
+  // },
 });
 
 // arg1: singular form of schema i.e Post, Blog, User etc. This is because this represents what an instance of the model would be not a collection

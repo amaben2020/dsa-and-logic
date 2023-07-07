@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
 import MongoDBFactory from "./../api/services/MongoDB.js";
 import Blog from "./../models/Blog.js";
 
@@ -10,6 +11,25 @@ const createBlogPost = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     blog: `Blog with ${blogPost?.title} created successfully ✅`,
+  });
+});
+
+const protectedBlogPosts = asyncHandler(async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+
+  const secret = "jcdkdmklcksmcdmklcsklmdmkldmkls";
+  const decodeToken = jwt.decode(token, secret);
+  const blogPost = await Blog.find();
+
+  if (!decodeToken || !decodeToken.iat) {
+    res.status(500).json({
+      status: 500,
+      message: "Something went wrong",
+    });
+  }
+
+  res.status(200).json({
+    blogPost,
   });
 });
 
@@ -105,4 +125,10 @@ const updateBlogPost = asyncHandler(async (req, res) => {
   });
 });
 
-export { createBlogPost, getAllBlogPosts, getBlogPosts, updateBlogPost };
+export {
+  createBlogPost,
+  getAllBlogPosts,
+  getBlogPosts,
+  protectedBlogPosts,
+  updateBlogPost,
+};

@@ -8,12 +8,6 @@ function loggingMiddleware(req, res, next) {
   next();
 }
 
-app.get("/users", mw, (req, res) => {
-  console.log("admin", req.query.admin);
-  // res.send(req.query.admin);
-  res.end();
-});
-
 function mw(req, res, next) {
   if (req.query.admin) {
     req.query.admin = true; // passes this to the controller in the route
@@ -22,3 +16,8 @@ function mw(req, res, next) {
     throw new Error("Something went wrong");
   }
 }
+app.get("/users", mw, (req, res) => {
+  console.log("admin", req.query.admin);
+  // res.send(req.query.admin);
+  res.end();
+});
