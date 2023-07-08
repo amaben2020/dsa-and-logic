@@ -8,7 +8,7 @@ function loggingMiddleware(req, res, next) {
   next();
 }
 
-function mw(req, res, next) {
+function usersMiddleware(req, res, next) {
   if (req.query.admin) {
     req.query.admin = true; // passes this to the controller in the route
     next();
@@ -16,8 +16,19 @@ function mw(req, res, next) {
     throw new Error("Something went wrong");
   }
 }
-app.get("/users", mw, (req, res) => {
+app.get("/users", usersMiddleware, (req, res) => {
   console.log("admin", req.query.admin);
   // res.send(req.query.admin);
   res.end();
 });
+
+// const blogMiddleware = (req, res, nex) => {
+//   if (req.headers.authorization) {
+//     req.query.name = "Ben"
+//   }
+// }
+
+// app.get("/user", blogMiddleware, (req, res) => {
+//   console.log(req.query.name)
+// })
+// /users?name=ben

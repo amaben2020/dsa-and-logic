@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import MongoDBFactory from "./../api/services/MongoDB.js";
-import Blog from "./../models/Blog.js";
+import MongoDBFactory from "../../api/services/MongoDB.js";
+import Blog from "../../models/Blog.js";
 
 // tbh, there's absolutely no need to create a MongoDB factory, the controller could easily be used to query stuff here. This would in the future limit queries.
 const blogModel = new MongoDBFactory(Blog);
@@ -14,24 +14,25 @@ const createBlogPost = asyncHandler(async (req, res) => {
   });
 });
 
-const protectedBlogPosts = asyncHandler(async (req, res) => {
+const protectedBlogPosts = asyncHandler(async (req, res, next) => {
   // extract to a middleware function and use for protected routes
   const token = req.headers.authorization.split(" ")[1];
 
   const secret = "jcdkdmklcksmcdmklcsklmdmkldmkls";
   const decodeToken = jwt.decode(token, secret);
-  const blogPost = await Blog.find();
+  const blogPosts = await Blog.find();
 
-  if (!decodeToken || !decodeToken.iat) {
+  if (!decodeToken || !decodeToken.iat || !token) {
     res.status(500).json({
       status: 500,
       message: "Something went wrong",
     });
+  } else {
+    next();
   }
 
   res.status(200).json({
-    blogPost,
-    isAdult: true,
+    blogPosts,
   });
 });
 
@@ -96,7 +97,7 @@ const getBlogPosts = asyncHandler(async (req, res) => {
   const blogPostsQuery = query.exec();
 
   const blogPosts = await blogPostsQuery;
-
+  console.log(req.query);
   res.json({
     length: blogPosts.length,
     blogPosts,
