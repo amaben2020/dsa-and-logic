@@ -15,6 +15,7 @@ const createBlogPost = asyncHandler(async (req, res) => {
 });
 
 const protectedBlogPosts = asyncHandler(async (req, res) => {
+  // extract to a middleware function and use for protected routes
   const token = req.headers.authorization.split(" ")[1];
 
   const secret = "jcdkdmklcksmcdmklcsklmdmkldmkls";
@@ -30,6 +31,7 @@ const protectedBlogPosts = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     blogPost,
+    isAdult: true,
   });
 });
 
