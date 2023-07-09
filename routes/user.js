@@ -5,13 +5,14 @@ import {
   getUsers,
   userLogin,
   userRegister,
-} from "../controllers/userCreate.js";
+} from "../controllers/user/user.js";
 
 // instantiating per page prevents conflicts
 const userRouter = express.Router();
 
 userRouter.get("/", getUsers);
 userRouter.get("/:id", getUser);
+userRouter.patch("/:id", getUser);
 userRouter.post("/login", userLogin);
 userRouter.post("/register", userRegister);
 // userRouter.put("/:id", userCreate);

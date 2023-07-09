@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import MongoDBFactory from "./../api/services/MongoDB.js";
+import MongoDBFactory from "../../api/services/MongoDB.js";
+import User from "../../models/User.js";
 // Init User factory
 const mongodb = new MongoDBFactory(User);
 
@@ -44,6 +44,27 @@ const userLogin = async (req, res, next) => {
 };
 
 const userRegister = async (req, res, next) => {
+  const data = req.body;
+  try {
+    const user = (await User.create(data)).save();
+    const token = jwt.sign(
+      { email: data?.email, id: data._id },
+      "jcdkdmklcksmcdmklcsklmdmkldmkls",
+      {
+        expiresIn: 60 * 60,
+      },
+    );
+    return res.status(201).json({
+      user,
+      token,
+      status: 201,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateUser = async (req, res, next) => {
   const data = req.body;
   try {
     const user = (await User.create(data)).save();
