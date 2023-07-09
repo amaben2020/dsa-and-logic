@@ -1,7 +1,11 @@
+import bcrypt from "bcrypt";
+import crypto from "crypto";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import MongoDBFactory from "../../api/services/MongoDB.js";
+import Token from "../../models/Token.js";
 import User from "../../models/User.js";
+import { validateUser } from "../../models/validations/user.js";
 // Init User factory
 const mongodb = new MongoDBFactory(User);
 
@@ -44,23 +48,52 @@ const userLogin = async (req, res, next) => {
 };
 
 const userRegister = async (req, res, next) => {
-  const data = req.body;
+  const { email, password } = req.body;
   try {
-    const user = (await User.create(data)).save();
-    const token = jwt.sign(
-      { email: data?.email, id: data._id },
-      "jcdkdmklcksmcdmklcsklmdmkldmkls",
-      {
-        expiresIn: 60 * 60,
-      },
-    );
+    const { error } = validateUser(req.body);
+
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    const user = await User.create({
+      email,
+      password: hash,
+    });
+
+    const savedUser = user.save();
+
+    console.log("SAVED USER", savedUser);
+
+    let generateToken;
+    if (savedUser) {
+      generateToken = await Token.create({
+        userId: await User.findOne({ email: user?.email })
+          .populate("_id")
+          .exec(),
+
+        token: jwt.sign(
+          { email: savedUser?.email, id: savedUser?._id },
+          crypto.randomBytes(32).toString("hex"),
+          { expiresIn: 60 * 60 },
+        ),
+      });
+    }
+
+    console.log("generateToken", generateToken);
+
+    req.headers.cookies = generateToken;
+
     return res.status(201).json({
       user,
-      token,
+      token: generateToken?.token,
       status: 201,
+      statusText: "User registered successfully ✅",
     });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR HERE", error);
+    next(error);
   }
 };
 
@@ -69,7 +102,7 @@ const updateUser = async (req, res, next) => {
   try {
     const filter = { _id: req.params.id };
     const update = { password: req.body.password };
-
+    // docs: https://mongoosejs.com/docs/tutorials/findoneandupdate.html
     const user = await User.findOneAndUpdate(
       filter,
       update,

@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 import { routes } from "./routes/index.js";
 // Set up rate limiter: maximum of twenty requests per minute
-import "dotenv/config";
+import "dotenv/config.js";
 import RateLimit from "express-rate-limit";
 import morgan from "morgan";
 import Product from "./models/relationship/user-and-car/models/Product.js";
