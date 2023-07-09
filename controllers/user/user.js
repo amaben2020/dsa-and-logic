@@ -67,18 +67,23 @@ const userRegister = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const data = req.body;
   try {
-    const user = (await User.create(data)).save();
-    const token = jwt.sign(
-      { email: data?.email, id: data._id },
-      "jcdkdmklcksmcdmklcsklmdmkldmkls",
-      {
-        expiresIn: 60 * 60,
-      },
+    const filter = { _id: req.params.id };
+    const update = { password: req.body.password };
+
+    const user = await User.findOneAndUpdate(
+      filter,
+      update,
+      // If `new` isn't true, `findOneAndUpdate()` will return the
+      // document as it was _before_ it was updated.
+      { new: true },
     );
+
+    const updatedUser = await user.save();
+
     return res.status(201).json({
-      user,
-      token,
+      updatedUser,
       status: 201,
+      statusText: "success",
     });
   } catch (error) {
     console.log(error);
@@ -121,7 +126,7 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export { deleteUser, getUser, getUsers, userLogin, userRegister };
+export { deleteUser, getUser, getUsers, updateUser, userLogin, userRegister };
 
 // REGEX
 // app.get(/.*fish$/, function (req, res) {
