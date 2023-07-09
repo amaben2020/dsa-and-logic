@@ -13,29 +13,47 @@ const userLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
   let existingUser = {};
+  let existingToken = {};
   let token = "";
 
   try {
     existingUser = await User.findOne({ email: email });
-    console.log("existingUser", existingUser);
+    existingToken = await Token.findOne({ userId: existingUser?._id });
 
-    if (existingUser.email) {
-      token = jwt.sign(
-        { email: existingUser?.email, id: existingUser._id },
-        "jcdkdmklcksmcdmklcsklmdmkldmkls",
-        {
-          expiresIn: 60 * 60,
-        },
-      );
-    } else {
-      throw new Error("No user");
+    if (!existingToken?.token || !existingUser?.email) {
+      res.send("User doesn't exist");
     }
 
-    console.log("token", token);
+    const match = await bcrypt.compare(password, existingUser?.password);
 
-    if (!existingUser || existingUser?.password != password) {
-      const error = Error("Wrong details please check at once");
-      return next(error);
+    if (!match) {
+      res.send("Wrong Password");
+    }
+
+    const jwtTokenExpiry = jwt.decode(existingToken?.token);
+    console.log(jwtTokenExpiry);
+
+    const today = Date.now();
+    const isTokenValid = jwtTokenExpiry.exp * 1000 >= today;
+
+    if (existingUser.email && match) {
+      // check if token hasn't expired,
+      if (isTokenValid) {
+        token = existingToken?.token;
+        console.log("Valid");
+      } else {
+        //  else create new one
+        token = jwt.sign(
+          { email: existingUser?.email, id: existingUser._id },
+          "jcdkdmklcksmcdmklcsklmdmkldmkls",
+          {
+            expiresIn: 60 * 60,
+          },
+        );
+        console.log("invalid");
+      }
+    } else {
+      throw new Error("No user");
     }
 
     return res.status(201).json({
@@ -64,8 +82,6 @@ const userRegister = async (req, res, next) => {
 
     const savedUser = user.save();
 
-    console.log("SAVED USER", savedUser);
-
     let generateToken;
     if (savedUser) {
       generateToken = await Token.create({
@@ -80,8 +96,6 @@ const userRegister = async (req, res, next) => {
         ),
       });
     }
-
-    console.log("generateToken", generateToken);
 
     req.headers.cookies = generateToken;
 
