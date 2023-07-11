@@ -56,7 +56,7 @@ const userLogin = async (req, res, next) => {
       throw new Error("No user");
     }
 
-    return res.status(201).json({
+    res.status(201).json({
       user: existingUser,
       token,
     });
@@ -97,7 +97,7 @@ const userRegister = async (req, res, next) => {
       });
     }
 
-    req.headers.cookies = generateToken;
+    // req.headers.cookies = generateToken;
 
     return res.status(201).json({
       user,

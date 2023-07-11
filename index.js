@@ -4,12 +4,12 @@ import mongoose from "mongoose";
 
 import { routes } from "./routes/index.js";
 // Set up rate limiter: maximum of twenty requests per minute
+import cors from "cors";
 import "dotenv/config.js";
 import RateLimit from "express-rate-limit";
 import morgan from "morgan";
 import Product from "./models/relationship/user-and-car/models/Product.js";
 import Review from "./models/relationship/user-and-car/models/Review.js";
-
 // Rate limiter so we don't abuse the API
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -29,6 +29,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(limiter);
 app.use(morgan("tiny"));
+
+app.use(
+  cors({
+    // all origins are allowed
+    origin: "*",
+  }),
+);
 
 routes.forEach(({ path, route }) => {
   app.use(path, route);
