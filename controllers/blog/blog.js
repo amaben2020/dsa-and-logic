@@ -59,6 +59,7 @@ const getBlogPosts = asyncHandler(async (req, res) => {
   }
   // placed directly above the sorter so its overridden if there's a sort in place. This utilizes an object filtration (req.params) mechanism rather than strings.
   // for general filtration
+
   let query = Blog.find(queryString);
 
   // sorting: basically it requires passing a string to the model.find(string)
@@ -94,10 +95,12 @@ const getBlogPosts = asyncHandler(async (req, res) => {
   }
 
   // correct way ✅
-  const blogPostsQuery = query.exec();
+  const blogPostsQuery = req.query.published
+    ? Blog.find(queryString)
+    : query.exec();
 
   const blogPosts = await blogPostsQuery;
-  console.log(req.query);
+
   res.json({
     length: blogPosts.length,
     blogPosts,

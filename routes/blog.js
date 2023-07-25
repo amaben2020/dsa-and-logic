@@ -5,12 +5,16 @@ import {
   protectedBlogPosts,
   updateBlogPost,
 } from "../controllers/blog/blog.js";
-import { protectedBlogRoute } from "../controllers/blog/middleware.js";
+import {
+  getPublishedBlogPosts,
+  protectedBlogRoute,
+} from "../controllers/blog/middleware.js";
 
 const blogRouter = express.Router();
 
 blogRouter.post("/", createBlogPost);
 // blogRouter.get("/", getAllBlogPosts);
+blogRouter.get("/published-blog", getPublishedBlogPosts, getBlogPosts);
 blogRouter.get("/", protectedBlogRoute, getBlogPosts);
 blogRouter.get("/protected", protectedBlogPosts);
 blogRouter.put("/:id", updateBlogPost);

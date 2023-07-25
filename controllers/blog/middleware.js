@@ -9,12 +9,24 @@ export const protectedBlogRoute = asyncHandler(async (req, _, next) => {
 
   try {
     if (!decodeToken || !decodeToken.iat || !token) {
-      throw new Error("Something went wrong");
+      throw new Error("Please authenticate yourself, no token available");
     } else {
       // req.query.name = "Benoski";
       next();
     }
   } catch (error) {
     next(error);
+  }
+});
+
+export const getPublishedBlogPosts = asyncHandler((req, res, next) => {
+  // return only published blogposts
+  console.log(req.query);
+  req.query.published = true;
+
+  if (req.query.published) {
+    next();
+  } else {
+    console.log("Not callable");
   }
 });

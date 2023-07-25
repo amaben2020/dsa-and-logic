@@ -44,3 +44,7 @@ xi. Mongoose queries: https://masteringjs.io/tutorials/mongoose/query
 xii. PATCH vs PUT: https://byjus.com/gate/difference-between-put-and-patch-request/#:~:text=PUT%20is%20a%20technique%20of%20altering%20resources%20when%20the%20client,without%20changing%20the%20whole%20data.
 
 xiii. Hashing and Salting: https://www.makeuseof.com/express-apps-user-authentication-implementing/
+Docker:
+
+1. docker ps
+2. docker build -t algomachine/mongoapp:1.0 .

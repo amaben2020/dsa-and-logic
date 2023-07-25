@@ -10,6 +10,16 @@ import RateLimit from "express-rate-limit";
 import morgan from "morgan";
 import Product from "./models/relationship/user-and-car/models/Product.js";
 import Review from "./models/relationship/user-and-car/models/Review.js";
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: "a long, randomly-generated string stored in env",
+  baseURL: "http://localhost:3000",
+  clientID: "vjGcr1lUeOTE4pNa7lpn9ge3xLIRe6ju",
+  issuerBaseURL: "https://dev-n34rdis4.us.auth0.com",
+};
+
 // Rate limiter so we don't abuse the API
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -63,6 +73,10 @@ app.get("/reviews", function (req, res) {
     .catch(function (err) {
       res.json(err);
     });
+});
+
+app.get("/", (req, res) => {
+  res.send("Running");
 });
 
 // Route for creating a new Product

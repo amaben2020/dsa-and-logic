@@ -31,7 +31,6 @@ const userLogin = async (req, res, next) => {
     }
 
     const jwtTokenExpiry = jwt.decode(existingToken?.token);
-    console.log(jwtTokenExpiry);
 
     const today = Date.now();
     const isTokenValid = jwtTokenExpiry.exp * 1000 >= today;
@@ -40,7 +39,6 @@ const userLogin = async (req, res, next) => {
       // check if token hasn't expired,
       if (isTokenValid) {
         token = existingToken?.token;
-        console.log("Valid");
       } else {
         //  else create new one
         token = jwt.sign(
@@ -50,7 +48,6 @@ const userLogin = async (req, res, next) => {
             expiresIn: 60 * 60,
           },
         );
-        console.log("invalid");
       }
     } else {
       throw new Error("No user");
