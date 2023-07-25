@@ -1,4 +1,4 @@
-FROM node:18
+FROM --platform=arm64 node:18
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -15,5 +15,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 5001
+EXPOSE 8001
 CMD [ "node", "server.js" ]

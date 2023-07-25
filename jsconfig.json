@@ -1,7 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs"
+    "target": "ES2016",
+    // "module": "commonjs",
+    "module": "ES6",
+    "baseUrl": ".",
+    "paths": {
+      "@models": ["./src/db/models/index.js"],
+      "@helpers": ["./src/lib/utils.js"],
+      "@controllers": ["./src/lib/constants.js"],
+      "@services/*": ["./api/services/*"]
+    }
   },
   "exclude": ["node_modules"]
 }

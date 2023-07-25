@@ -6,6 +6,12 @@
   "scripts": {
     "dev": "nodemon server.js node --trace-warnings ."
   },
+  "_moduleAliases": {
+    "@root": ".",
+    "@deep": "src/some/very/deep/directory/or/file",
+    "@services": "api/services",
+    "something": "src/foo"
+  },
   "type": "module",
   "keywords": [],
   "author": "",
@@ -21,6 +27,7 @@
     "express-rate-limit": "^6.7.0",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
+    "module-alias": "^2.2.3",
     "mongoose": "^7.3.0",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.3",
