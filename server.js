@@ -80,7 +80,7 @@ app.get("/", (req, res) => {
   res.send("Running");
 });
 
-// Route for creating a new Product
+// Route for creating a new Product.
 app.post("/product", async function (req, res) {
   try {
     const product = Product(req.body);

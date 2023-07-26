@@ -4,7 +4,8 @@
   "description": "We wanna learn mongoose and mongodb using services and classes.",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js node --trace-warnings ."
+    "dev": "nodemon server.js node --trace-warnings .",
+    "start": "node server.js"
   },
   "_moduleAliases": {
     "@root": ".",

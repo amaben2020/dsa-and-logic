@@ -11,7 +11,7 @@ export class ApiFeature {
   duration() {
     // for filtering by duration
     if (this.queryString?.duration) {
-      return JSON.parse(
+      this.queryString = JSON.parse(
         JSON.stringify(this.queryString).replace(
           /\b(gte|gt|lte|lt)\b/g,
           (m) => `$${m}`,
@@ -25,9 +25,9 @@ export class ApiFeature {
     // sorting: basically it requires passing a string to the model.find(string)
     if (this.queryString.sort) {
       const sortWithMultipleQuery = this.queryString.sort.split(",").join(" ");
-      return Blog.find().sort(sortWithMultipleQuery);
+      this.query = Blog.find().sort(sortWithMultipleQuery);
     } else {
-      return Blog.find().sort("-createdAt");
+      this.query = Blog.find().sort("-createdAt");
     }
     return this;
   }
@@ -36,9 +36,9 @@ export class ApiFeature {
     // fields limitation feature
     if (this.queryString?.fields) {
       const fieldsQuery = this.queryString.fields.split(",").join(" ");
-      return this.query.select(fieldsQuery);
+      this.query = this.query.select(fieldsQuery);
     } else {
-      return this.query.select("-__v");
+      this.query = this.query.select("-__v");
     }
     return this;
   }
@@ -56,7 +56,7 @@ export class ApiFeature {
       if (skip >= blogsCount) {
         throw new Error("Page not found");
       } else {
-        query = Blog.find().skip(skip).limit(limit);
+        this.query = Blog.find().skip(skip).limit(limit);
       }
     }
     return this;

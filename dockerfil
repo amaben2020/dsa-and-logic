@@ -1,0 +1,17 @@
+FROM node:18-alpine3.17 as base
+WORKDIR /usr/src/app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn --frozen-lockfile
+COPY . .
+RUN yarn build
+
+# Final build
+FROM node:18-alpine3.17
+WORKDIR /usr/src/app
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn --prod --frozen-lockfile
+RUN apk add --no-cache openssl dumb-init
+EXPOSE 8081 
+CMD ["dumb-init", "yarn", "start"]
