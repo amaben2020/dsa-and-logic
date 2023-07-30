@@ -1,8 +1,6 @@
-import {
-  carRouter,
-  userRouter as userRoute,
-} from "../models/relationship/user-and-car/routes/index.js";
+import { userRouter as userRoute } from "../models/relationship/user-and-car/routes/index.js";
 import blogRouter from "./blog.js";
+import carRouter from "./car.js";
 import tourRouter from "./tour.js";
 import userRouter from "./user.js";
 import wikiRouter from "./wiki.js";
@@ -13,5 +11,6 @@ export const routes = [
   { path: "/blog", route: blogRouter },
   { path: "/tour", route: tourRouter },
   { path: "/users", route: userRoute },
-  { path: "/cars", route: carRouter },
+  // { path: "/cars", route: carRouter },
+  { path: "/car", route: carRouter },
 ];

@@ -1,1 +1,3 @@
 Models are the real life representation of an entity
+
+git reset <commit-id> --hard : This is the snapshot you wanna go back to

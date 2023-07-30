@@ -18,6 +18,7 @@ docker image in aws : 686458311163.dkr.ecr.us-east-1.amazonaws.com/mongo-app:lat
 7. create a cluster in ecs ==> infrastructure ==>
    <!-- 3a. http://localhost:8081/user should return the forwarded url from 5001 -->
 
+Resource on how to create one: https://www.youtube.com/watch?v=-bv_WU4gvOw
 Using an Ubuntu server to prevent pushing extremely large docker images everytime
 Go to aws console and create a server
 Get the .pem

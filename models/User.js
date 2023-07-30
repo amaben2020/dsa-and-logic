@@ -16,6 +16,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  product: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Car",
+    },
+  ],
+  friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   // hobbies: [String],
   // isAdmin: {
   //   type: Boolean,

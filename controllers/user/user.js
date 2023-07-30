@@ -170,7 +170,58 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export { deleteUser, getUser, getUsers, updateUser, userLogin, userRegister };
+const createUser2 = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const checkIfUserExists = await User.find({ email });
+  console.log("checkIfUserExists", checkIfUserExists);
+  if (checkIfUserExists?.length) {
+    res.status(401).send("User already exists, please try another email");
+  }
+
+  // create an email and password with bcrypt
+
+  const saltRounds = 10;
+
+  const salt = await bcrypt.genSalt(saltRounds);
+
+  const encryptedPassword = await bcrypt.hash(password, salt);
+  const newUser = await User.create({
+    email,
+    password: encryptedPassword,
+  });
+
+  console.log("newUser", newUser);
+
+  // generate token with jwt
+
+  const userToken = jwt.sign({ ...newUser }, "shhhhh");
+
+  console.log("userToken", userToken);
+
+  // pass the token to the token model for storage based on userId
+
+  const generatedToken = await Token.create({
+    userId: newUser.id,
+    token: userToken,
+  });
+
+  // return user created
+
+  res.status(201).json({
+    user: newUser,
+    generatedToken,
+  });
+});
+
+export {
+  createUser2,
+  deleteUser,
+  getUser,
+  getUsers,
+  updateUser,
+  userLogin,
+  userRegister,
+};
 
 // REGEX
 // app.get(/.*fish$/, function (req, res) {
