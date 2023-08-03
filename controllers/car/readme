@@ -1,0 +1,11 @@
+Populate: sighs, i had a tough time understanding this concept. All you're populating is the property of the Model connected to another one.
+
+Populate passes down the id to an internal function that simply filters document that match that criteria and returns the full object for you, that's all.
+
+In MongoDB, Population is the process of replacing the specified path in the document of one collection with the actual document from the other collection.
+
+Need for Population: Whenever in the schema of one collection we provide a reference (in any field) to a document from any other collection, we need a populate() method to fill the field with that document.
+
+Hey, give me the full properties of this document in the collection stipulated in the Schema based on the id.
+
+Best resource on populate: https://www.geeksforgeeks.org/mongoose-populate-method/

@@ -1,3 +1,5 @@
 Models are the real life representation of an entity
 
 git reset <commit-id> --hard : This is the snapshot you wanna go back to
+
+The role of frontend developers is becoming increasingly blurry as the days go by. Frontend developers are expected to understand and implement the full cycle of development today ranging from Payments, Databases, Server-logic, CI/CD etc. Luckily for you/us, we use JavaScript in our everyday life, hence, writing backend logic or code is pretty easy to begin with.

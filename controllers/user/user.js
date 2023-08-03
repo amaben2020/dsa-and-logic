@@ -82,6 +82,7 @@ const userRegister = async (req, res, next) => {
     let generateToken;
     if (savedUser) {
       generateToken = await Token.create({
+        // not sure if populate is necessary here since we're simply retrieving the id.
         userId: await User.findOne({ email: user?.email })
           .populate("_id")
           .exec(),

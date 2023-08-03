@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-// create a User with cars
 const CarModel = new Schema({
   brand: {
     type: String,

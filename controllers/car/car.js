@@ -3,8 +3,6 @@ import User from "./../../models/User.js";
 import Car from "./../../models/relationship/user-and-car/models/Car.js";
 
 export const createCar = asyncHandler(async (req, res) => {
-  // create a car in the car collection
-
   const { body } = req;
 
   const newCar = await Car.create({ ...body });
@@ -16,7 +14,6 @@ export const createCar = asyncHandler(async (req, res) => {
 });
 
 export const addUserToCar = async (req, res) => {
-  console.log(req.query);
   try {
     const userId = req.query.userId;
     const carId = req.query.carId;
