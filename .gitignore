@@ -36,3 +36,4 @@ next-env.d.ts
 
 aws-ec2.md
 aws-integration.md
+.env
